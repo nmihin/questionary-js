@@ -46,6 +46,7 @@
 #wrapper-q .steps-q > ul > li {
     background: #f4f4f4;
     padding-left:15px;
+    cursor:pointer;
 }
 
 #wrapper-q .steps-q > ul > li:before {
@@ -137,7 +138,7 @@ body .custom-button01:hover {
 input[type="checkbox"], 
 input[type="radio"]
 {
-    display:none !important;
+  display:none !important;
 }
 
 
@@ -189,12 +190,24 @@ input[type="radio"]
     background:#f4f4f4;
 }
 
-#wrapper-q .page-4-q__subcategory {
+#wrapper-q .page-4-q__case {
     margin-top: 85px;
+    margin-bottom: 60px;
+}
+
+#wrapper-q .page-4-q__set {
+    max-height: 400px;
+    overflow: hidden;
+    overflow-y: scroll;  
 }
 
 #wrapper-q .page-4-q__set > li {
     line-height: 1.5;
+}
+
+#wrapper-q .page-4-q__set .link h6 {
+    bottom: 0;
+    position: relative;
 }
 
 #wrapper-q .page-4-q h5 {

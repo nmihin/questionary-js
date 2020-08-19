@@ -98,37 +98,138 @@ $(function() {
         "integrations": [{
                 "selected": "Automatic Number Plate Recognition",
                 "image": "integration-plate-recognition.png",
+                "subcategory": [
+                	"Healthcare 1",
+                	"Healthcare 2",
+                	"Retail 1",
+                	"Government 1"
+                ]
             },
-{
+			{
                 "selected": "Intercoms",
                 "image": "integration-intercom.png",
+                "subcategory": [
+                	"Healthcare 1",
+                	"Healthcare 2",
+                	"Retail 1",
+                	"Government 1"
+                ]
             },
             {
                 "selected": "Keylocker",
                 "image": "integration-keylocker.png",
+                "subcategory": [
+                	"Healthcare 1",
+                	"Healthcare 2",
+                	"Retail 1",
+                	"Government 1"
+                ]
             },
             {
                 "selected": "Lifts and Elevators",
                 "image": "integration-elevator.png",
+                "subcategory": [
+                	"Healthcare 1",
+                	"Healthcare 2",
+                	"Retail 1",
+                	"Government 1"
+                ]
             },
             {
                 "selected": "Lighting",
                 "image": "integration-lighting.png",
+                "subcategory": [
+                	"Healthcare 1",
+                	"Healthcare 2",
+                	"Retail 1",
+                	"Government 1"
+                ]
             },
             {
                 "selected": "Mobile credentials",
                 "image": "integration-mobile-credentials.png",
+                "subcategory": [
+                	"Healthcare 1",
+                	"Healthcare 2",
+                	"Retail 1",
+                	"Government 1"
+                ]
             },
             {
                 "selected": "Perimeter Fence Systems",
                 "image": "integration-fences.png",
+                "subcategory": [
+                	"Healthcare 1",
+                	"Healthcare 2",
+                	"Retail 1",
+                	"Government 1"
+                ]
             },
             {
                 "selected": "Visitor Management",
                 "image": "integration-visitor-management.png",
+                "subcategory": [
+                	"Healthcare 1",
+                	"Healthcare 2",
+                	"Retail 1",
+                	"Government 1"
+                ]
             }
         ]
     }
+
+var caseStudyData = {
+  "case_study": [{
+      "selected": "Case Study 1",
+      "image": "integration-plate-recognition.png",
+      "subcategory": [
+        "Healthcare 1",
+        "Universities 2",
+        "Retail 1",
+        "Government 4",
+      ]
+    },
+    {
+      "selected": "Case Study 2",
+      "image": "integration-intercom.png",
+      "subcategory": [
+        "Healthcare 1",
+        "Healthcare 2",
+        "Universities 1",
+        "Retail 4",
+        "Government 2",
+        "Government 4",
+      ]
+    },
+    {
+      "selected": "Case Study 3",
+      "image": "integration-keylocker.png",
+      "subcategory": [
+        "Healthcare 2",
+        "Universities 3",
+        "Retail 1",
+        "Government 4",
+      ]
+    },
+    {
+      "selected": "Case Study 4",
+      "image": "category-membership-clubs.png",
+      "subcategory": [
+        "Healthcare 2",
+        "Retail 1",
+        "Government 4",
+      ]
+    },
+    {
+      "selected": "Case Study 5",
+      "image": "category-financial-institutions.png",
+      "subcategory": [
+        "Healthcare 2",
+      ]
+    }
+  ]
+}
+
 
     // PAGE 1 - DATA
     var categories = categoryData.categories.map(function(item) {
@@ -145,7 +246,7 @@ $(function() {
 
 	// PAGE 1 - SELECT CATEGORY
 	$(".page-2-q__select").click(function(){
-        if(!$(this).hasClass('custom-button01'))
+        if($(this).hasClass('link'))
 		  $('.page-2-q__subcategory').empty();
 
 		var i = $(this).data('index');
@@ -186,10 +287,18 @@ $(function() {
         var checkbox = $(this).find('input[type=radio]');
         checkbox.prop("checked", !checkbox.prop("checked"));
 
+		if($(this).hasClass('link')){
+	        $(".page-2-q__select").each(function(index) {
+	            $(this).removeClass('active');
+	        });
+	        $(this).addClass('active');
+    	}
+
         $("#wrapper-q ul[class^='page-']").each(function(index) {
             $(this).removeClass('active');
         });
         $('.page-2-q').addClass('active');
+        
         $("#wrapper-q .steps-q li").each(function(index) {
             $(this).removeClass('active');
         });
@@ -202,13 +311,21 @@ $(function() {
         var checkbox = $(this).find('input[type=radio]');
         checkbox.prop("checked", !checkbox.prop("checked"));
 
-        $("#wrapper-q .page-3-q__select").each(function(index) {
-            $(this).removeClass('active');
-        });
-        
-        setTimeout(function(){ 
-        	$(this).addClass('active');
-        }, 100);
+		if($(this).hasClass('link')){
+			$(".page-3-q__select").each(function(index) {
+	            $(this).removeClass('active');
+	        });
+	        setTimeout(function(){ 
+	        	$(this).addClass('active');
+	        }, 100);
+		}
+
+        if($(this).hasClass('.link')){
+        	$.each(".page-3-q__select.link", function(){
+        		$(this).removeClass('active');
+        	})
+		    $(this).addClass('active');
+        }
 
         if($(this).hasClass('custom-button01')){
             $("#wrapper-q ul[class^='page-']").each(function(index) {
@@ -221,6 +338,16 @@ $(function() {
 	        });
 	        $('.steps-q__step3').addClass('active');
         }
+
+        $("#wrapper-q ul[class^='page-']").each(function(index) {
+            $(this).removeClass('active');
+        });
+        $('.page-3-q').addClass('active');
+
+        $("#wrapper-q .steps-q li").each(function(index) {
+            $(this).removeClass('active');
+        });
+        $('.steps-q__step3').addClass('active');
     });
     //GO TO PAGE 4
     $('body').on('click',".page-4-q__select",function(event) {
@@ -237,17 +364,13 @@ $(function() {
         }
          if($(this).hasClass('custom-button01')){
             var categorySelected = $("input[name='page-2-q__radio']:checked").val(); 	
+            // CATEGORY SELECTED - radio
             var c = categoryData.categories[categorySelected];
+            // SUBCATEGORY SELECTED - radio
+            var s = $("input[name='page-3-q__radio']:checked").val(); 	
+
             $('.page-4-q__category').empty();
             $('.page-4-q__category').append( '<div class="col-12 col-sm-12"><div href="#" class="link is-lightbox" title="Title"><img class="img-fluid w-100" alt="Alt" src="images/'+c.image+'" /><h6>'+c.industry+'</h6></div></div>' );
-
-
-			$('.page-4-q__subcategory').empty();
-            var subCategorySelected = [];
-            $.each($("input[name='page-3-q__radio']:checked"), function(){
-            	var v = categoryData.categories[categorySelected].subcategory[$(this).val()]
-            	$('.page-4-q__subcategory').append( '<div class="col-3 col-sm-3"><div href="#" class="link is-lightbox" title="Title"><img class="img-fluid w-100" alt="Alt" src="images/'+c.image+'" /><h6>'+v+'</h6></div></div>' );
-            });	
 
 
             $('.page-4-q__integrations').empty();
@@ -256,7 +379,29 @@ $(function() {
             	var v = integrationsData.integrations[$(this).val()];
             	$('.page-4-q__integrations').append( '<div class="col-6 col-sm-6"><div href="#" class="link is-lightbox" title="Title"><img class="img-fluid w-100" alt="Alt" src="images/'+v.image+'" /><h6>'+v.selected+'</h6></div></div>' );
             });	
-            
+
+
+			$('.page-4-q__case').empty();
+			var caseResults = [];
+            $.each(caseStudyData.case_study, function(index,value){
+            	for(let i=0; i<$(this)[0].subcategory.length; i++) {
+            		if($(this)[0].subcategory[i]==c.subcategory[s]){
+            			$('.page-4-q__case').append( '<div class="col-3 col-sm-3"><div href="#" class="link is-lightbox" title="Title"><img class="img-fluid w-100" alt="Alt" src="images/'+value.image+'" /><h6>'+value.selected+'</h6></div></div>' );
+            		}
+				}
+            });	
+
+            $('.page-4-q__set').empty();
+            var integrationsResults = [];
+            $.each(integrationsData.integrations, function(index,value){
+            	for(let i=0; i<$(this)[0].subcategory.length; i++) {
+            		if($(this)[0].subcategory[i]==c.subcategory[s]){
+            			$('.page-4-q__set').append( '<div class="col-6 col-sm-6"><div href="#" class="link is-lightbox" title="Title"><img class="img-fluid w-100" alt="Alt" src="images/'+value.image+'" /><h6>'+value.selected+'</h6></div></div>' );
+            		}
+				}
+            });	
+
+      
 	        $("#wrapper-q .steps-q li").each(function(index) {
 	            $(this).removeClass('active');
 	        });
@@ -279,4 +424,42 @@ $(function() {
         event.preventDefault();
         $(this).toggleClass('active');
     });   
+
+    //STEPS GO TO PAGE
+    $('body').on('click',".steps-q__step1",function(event) {
+        event.preventDefault();
+        $('.page-1-q__select.custom-button01').trigger('click');
+        $("#wrapper-q .steps-q li").each(function(index) {
+            $(this).removeClass('active');
+        });
+        $('.steps-q__step1').addClass('active');
+    });    
+    $('body').on('click',".steps-q__step2",function(event) {
+        event.preventDefault();
+        $("#wrapper-q ul[class^='page-']").each(function(index) {
+            $(this).removeClass('active');
+        });
+        $('.page-2-q').addClass('active');
+
+        $("#wrapper-q .steps-q li").each(function(index) {
+            $(this).removeClass('active');
+        });
+        $('.steps-q__step2').addClass('active');
+    });    
+    $('body').on('click',".steps-q__step3",function(event) {
+        event.preventDefault();
+        $('.page-3-q__select.custom-button01').trigger('click');
+        $("#wrapper-q .steps-q li").each(function(index) {
+            $(this).removeClass('active');
+        });
+        $('.steps-q__step3').addClass('active');   
+    });    
+    $('body').on('click',".steps-q__step4",function(event) {
+        event.preventDefault();
+        $("#wrapper-q .steps-q li").each(function(index) {
+            $(this).removeClass('active');
+        });
+        $('.steps-q__step4').addClass('active');
+        $('.page-4-q__select.custom-button01').trigger('click');
+    });    
 });
